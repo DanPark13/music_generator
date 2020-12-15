@@ -65,7 +65,6 @@ def get_piece(midi_file):
 
     while True:
         if time % (pattern.resolution / 4) == (pattern.resolution / 8):
-            # Crossed a note boundary. Create a new state, defaulting to holding notes
             old_state = state
 
             state = [[old_state[x][0], 0] for x in xrange(span)]
@@ -88,8 +87,6 @@ def get_piece(midi_file):
                             state[event.pitch - LOWER_BOUND] = [1, 1]
                 elif isinstance(event, midi.TimeSignatureEvent):
                     if event.numerator not in (2, 4):
-                        # We don't want to worry about non-4 time signatures. Bail early!
-                        # print "Found time signature event {}. Bailing!".format(evt)
                         return state_matrix
 
                 try:
